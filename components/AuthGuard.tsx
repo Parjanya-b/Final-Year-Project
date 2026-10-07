@@ -1,0 +1,23 @@
+'use client';
+
+import { useEffect, ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/lib/AuthContext';
+
+export default function AuthGuard({ children }: { children: ReactNode }) {
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) router.replace('/login');
+  }, [user, loading, router]);
+
+  if (loading || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="card px-6 py-4 text-sm">Loading your command deck...</div>
+      </div>
+    );
+  }
+  return <>{children}</>;
+}
