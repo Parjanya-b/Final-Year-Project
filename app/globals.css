@@ -2,44 +2,88 @@
 @tailwind components;
 @tailwind utilities;
 
-@keyframes floatAurora {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
+/* ---------- Page background: cream with dots ---------- */
 body {
-  background: linear-gradient(-45deg, #090D16, #1E1B4B, #0F3E47, #2E1065);
-  background-size: 300% 300%;
-  animation: floatAurora 14s ease infinite;
-  color: #F8FAFC;
+  background-color: #FFFDF7;
+  background-image: radial-gradient(#CBD5E1 1.2px, transparent 1.2px);
+  background-size: 20px 20px;
+  color: #111827;
 }
 
+/* ---------- Card: thick border + hard shadow ---------- */
 .card {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.3);
-  border-radius: 28px !important;
+  background: #FFFFFF;
+  border: 3px solid #111827 !important;
+  box-shadow: 6px 6px 0px #111827 !important;
+  border-radius: 16px !important;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0px #111827 !important;
+}
+/* For big containers (auth box, chart panels) that should NOT jump on hover */
+.card-static:hover {
+  transform: none;
+  box-shadow: 6px 6px 0px #111827 !important;
 }
 
+/* ---------- Pastel tints for stat cards ---------- */
+.card-tint-1 { background: #FEF08A !important; }  /* yellow */
+.card-tint-2 { background: #A7F3D0 !important; }  /* mint */
+.card-tint-3 { background: #DDD6FE !important; }  /* lavender */
+.card-tint-4 { background: #FECDD3 !important; }  /* pink */
+
+/* ---------- Orange button that presses down ---------- */
 .accent-btn {
-  background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(226,232,240,0.85));
-  color: #0F172A;
+  background: #FF5722;
+  color: #FFFFFF;
+  border: 3px solid #111827 !important;
+  box-shadow: 4px 4px 0px #111827 !important;
   font-weight: 700;
-  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.25);
-  border-radius: 9999px !important;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.accent-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0px #111827 !important;
 }
 
+/* ---------- Lime AI pill ---------- */
 .ai-pill {
-  background: rgba(56, 189, 248, 0.2);
-  border: 1px solid rgba(56, 189, 248, 0.5);
-  color: #BAE6FD;
+  background: #A3E635;
+  border: 2px solid #111827;
+  color: #111827;
+  font-weight: 700;
 }
 
+/* ---------- Yellow header ---------- */
 .nav-shell {
-  background: rgba(255, 255, 255, 0.07);
-  backdrop-filter: blur(24px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  background: #FDE047;
+  border-bottom: 3px solid #111827;
+}
+
+/* ---------- Reusable pieces (so pages never hard-code colours) ---------- */
+.input-field {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background: #FFFFFF;
+  border: 3px solid #111827;
+  font-size: 0.875rem;
+  font-weight: 500;
+  outline: none;
+}
+.input-field:focus {
+  box-shadow: 4px 4px 0px #111827;
+}
+.input-field::placeholder {
+  color: #6B7280;
+}
+.error-text {
+  color: #B91C1C;
+  font-weight: 700;
+}
+.auth-side {
+  background: #DDD6FE;
+  border-left: 3px solid #111827;
 }

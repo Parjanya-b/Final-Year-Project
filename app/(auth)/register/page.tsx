@@ -7,8 +7,7 @@ import AuthShell from '@/components/AuthShell';
 import { useAuth } from '@/lib/AuthContext';
 import { friendlyError } from '@/lib/authErrors';
 
-const inputClass =
-  'w-full px-4 py-3 rounded-xl bg-black/20 border border-white/20 text-sm outline-none placeholder:opacity-50 focus:border-white/50';
+const inputClass = 'input-field';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -81,7 +80,7 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        {error && <p className="text-xs text-rose-300">{error}</p>}
+        {error && <p className="text-xs error-text">{error}</p>}
 
         <button type="submit" disabled={submitting}
                 className="w-full py-3 text-sm accent-btn disabled:opacity-60">
