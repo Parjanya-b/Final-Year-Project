@@ -19,7 +19,6 @@ import { seedDemoData } from '@/lib/demoData';
 import { formatINR } from '@/lib/format';
 import {
   MIN_DAYS,
-  ForecastPoint,
   ForecastError,
   buildDailySeries,
   fetchForecast,
@@ -27,27 +26,8 @@ import {
 } from '@/lib/forecast';
 import StatCard from '@/components/StatCard';
 
-// ── Types ──────────────────────────────────────────────────────────────────────
-type Horizon = 30 | 60 | 90;
-
-interface ChartRow {
-  ds: string;
-  label: string;
-  actual?: number;
-  yhat?: number;
-  band?: [number, number]; // [yhat_lower, yhat_upper]
-}
-
 // ── Custom Tooltip ─────────────────────────────────────────────────────────────
-function ForecastTooltip({
-  active,
-  payload,
-  label,
-}: {
-  active?: boolean;
-  payload?: { name: string; value: number | number[] }[];
-  label?: string;
-}) {
+function ForecastTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null;
   return (
     <div
@@ -66,7 +46,7 @@ function ForecastTooltip({
         return (
           <p key={i} className="text-xs">
             <span className="font-semibold">{p.name}: </span>
-            {formatINR(p.value as number)}
+            {formatINR(p.value)}
           </p>
         );
       })}
@@ -79,10 +59,10 @@ export default function ForecastPage() {
   const { user } = useAuth();
   const { transactions, loading } = useTransactions();
 
-  const [horizon, setHorizon] = useState<Horizon>(90);
+  const [horizon, setHorizon] = useState(90);
   const [running, setRunning] = useState(false);
-  const [forecast90, setForecast90] = useState<ForecastPoint[] | null>(null);
-  const [error, setError] = useState<ForecastError | null>(null);
+  const [forecast90, setForecast90] = useState(null);
+  const [error, setError] = useState(null);
   const [seeding, setSeeding] = useState(false);
 
   // Build the daily expense series from all transactions
@@ -114,8 +94,8 @@ export default function ForecastPage() {
   }, [forecastSlice, series, horizon]);
 
   // ── Chart data ───────────────────────────────────────────────────────────────
-  const chartData = useMemo<ChartRow[]>(() => {
-    const rows: ChartRow[] = [];
+  const chartData = useMemo(() => {
+    const rows = [];
 
     // Last 60 days of actual data
     const last60 = series.slice(-60);
@@ -188,7 +168,7 @@ export default function ForecastPage() {
         {/* Horizon selector */}
         <div className="flex flex-wrap items-center gap-3">
           <span className="text-xs font-bold opacity-70">FORECAST HORIZON:</span>
-          {([30, 60, 90] as Horizon[]).map((h) => (
+          {[30, 60, 90].map((h) => (
             <button
               key={h}
               onClick={() => setHorizon(h)}
@@ -332,7 +312,7 @@ export default function ForecastPage() {
                   tickLine={false}
                 />
                 <YAxis
-                  tickFormatter={(v: number) => `₹${(v / 1000).toFixed(0)}k`}
+                  tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`}
                   tick={{ fontSize: 10, fill: '#111827' }}
                   tickLine={false}
                   axisLine={false}

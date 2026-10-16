@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, ReactNode } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/AuthContext';
 
-export default function AuthGuard({ children }: { children: ReactNode }) {
+export default function AuthGuard({ children }) {
   const { user, loading } = useAuth();
   const router = useRouter();
 

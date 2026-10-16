@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 const ML_SERVICE_URL = process.env.ML_SERVICE_URL ?? 'http://localhost:8000';
 
-export async function POST(req: NextRequest) {
-  let upstream: Response;
+export async function POST(req) {
+  let upstream;
   try {
     upstream = await fetch(`${ML_SERVICE_URL}/forecast`, {
       method: 'POST',

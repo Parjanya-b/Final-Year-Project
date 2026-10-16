@@ -1,16 +1,16 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState } from 'react';
 import Modal from './Modal';
 import { useAuth } from '@/lib/AuthContext';
 import { addTransaction } from '@/lib/firestoreService';
 import { friendlyError } from '@/lib/authErrors';
 import { fromDateInput, toDateInputValue } from '@/lib/format';
-import { EXPENSE_CATEGORIES, INCOME_CATEGORIES, TxType } from '@/lib/types';
+import { EXPENSE_CATEGORIES, INCOME_CATEGORIES } from '@/lib/types';
 
-export default function AddTransactionModal({ onClose }: { onClose: () => void }) {
+export default function AddTransactionModal({ onClose }) {
   const { user } = useAuth();
-  const [type, setType] = useState<TxType>('expense');
+  const [type, setType] = useState('expense');
   const [category, setCategory] = useState(EXPENSE_CATEGORIES[0]);
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState(toDateInputValue(new Date()));
@@ -20,12 +20,12 @@ export default function AddTransactionModal({ onClose }: { onClose: () => void }
 
   const categories = type === 'expense' ? EXPENSE_CATEGORIES : INCOME_CATEGORIES;
 
-  const switchType = (t: TxType) => {
+  const switchType = (t) => {
     setType(t);
     setCategory(t === 'expense' ? EXPENSE_CATEGORIES[0] : INCOME_CATEGORIES[0]);
   };
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) return;
     const value = Number(amount);
