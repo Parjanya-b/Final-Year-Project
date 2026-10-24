@@ -3,19 +3,8 @@
 import { useAuth } from '@/lib/AuthContext';
 import { deleteTransaction } from '@/lib/firestoreService';
 import { formatDate, formatINR } from '@/lib/format';
-import { Transaction } from '@/lib/types';
 
-export default function RecentTransactions({
-  transactions,
-  hasDemo,
-  busy,
-  onClearDemo,
-}: {
-  transactions: Transaction[];
-  hasDemo: boolean;
-  busy: boolean;
-  onClearDemo: () => void;
-}) {
+export default function RecentTransactions({ transactions, hasDemo, busy, onClearDemo }) {
   const { user } = useAuth();
   const recent = transactions.slice(0, 8);
 
@@ -56,7 +45,7 @@ export default function RecentTransactions({
               className="text-xs opacity-60 hover:opacity-100"
               aria-label="Delete transaction"
             >
-              ✕
+              🗑
             </button>
           </div>
         </div>

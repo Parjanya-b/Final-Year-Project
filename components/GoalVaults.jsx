@@ -3,12 +3,12 @@
 import { useAuth } from '@/lib/AuthContext';
 import { deleteGoal } from '@/lib/firestoreService';
 import { formatDate, formatINR } from '@/lib/format';
-import { GOAL_EMOJI, Goal } from '@/lib/types';
+import { GOAL_EMOJI } from '@/lib/types';
 
-export default function GoalVaults({ goals, onAdd }: { goals: Goal[]; onAdd: () => void }) {
+export default function GoalVaults({ goals, onAdd }) {
   const { user } = useAuth();
 
-  const handleDelete = async (g: Goal) => {
+  const handleDelete = async (g) => {
     if (!user || !confirm(`Delete goal "${g.name}"?`)) return;
     await deleteGoal(user.uid, g.id);
   };
@@ -39,7 +39,7 @@ export default function GoalVaults({ goals, onAdd }: { goals: Goal[]; onAdd: () 
               <span>{GOAL_EMOJI[g.goalType] ?? '🎯'} {g.name}</span>
               <span className="flex items-center gap-2">
                 {pct}%
-                <button onClick={() => handleDelete(g)} className="opacity-60 hover:opacity-100">✕</button>
+                <button onClick={() => handleDelete(g)} className="opacity-60 hover:opacity-100">🗑</button>
               </span>
             </div>
             <div className="w-full h-3 bg-white border-2 border-[#111827] rounded-full overflow-hidden">
@@ -51,7 +51,7 @@ export default function GoalVaults({ goals, onAdd }: { goals: Goal[]; onAdd: () 
             <p className="text-[11px] font-medium opacity-80">
               {daysLeft > 0
                 ? `🎯 Target ${formatDate(g.targetDate)} · needs ${formatINR(need)}/month`
-                : `⏰ Deadline passed (${formatDate(g.targetDate)})`}
+                : `⚠️ Deadline passed (${formatDate(g.targetDate)})`}
             </p>
           </div>
         );

@@ -31,7 +31,7 @@ export default function DashboardPage() {
     const y = now.getFullYear();
     const m = now.getMonth();
     let net = 0, inflow = 0, burn = 0, credits = 0;
-    const byCategory: Record<string, number> = {};
+    const byCategory = {};
 
     for (const t of transactions) {
       net += t.type === 'income' ? t.amount : -t.amount;
@@ -58,7 +58,7 @@ export default function DashboardPage() {
     return { net, monthDelta, pctChange, inflow, credits, burn, used, safeDaily, top, monthName };
   }, [transactions]);
 
-  const run = async (fn: () => Promise<unknown>) => {
+  const run = async (fn) => {
     setBusy(true);
     try {
       await fn();

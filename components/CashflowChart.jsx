@@ -2,10 +2,9 @@
 
 import { useMemo } from 'react';
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { Transaction } from '@/lib/types';
 import { formatINR } from '@/lib/format';
 
-export default function CashflowChart({ transactions }: { transactions: Transaction[] }) {
+export default function CashflowChart({ transactions }) {
   // Group income/expense into the last 6 months
   const data = useMemo(() => {
     const now = new Date();
@@ -34,7 +33,7 @@ export default function CashflowChart({ transactions }: { transactions: Transact
         <CartesianGrid strokeDasharray="3 3" stroke="#CBD5E1" />
         <XAxis dataKey="month" tick={axis} tickLine={false} axisLine={{ stroke: '#111827', strokeWidth: 2 }} />
         <YAxis tick={axis} tickLine={false} axisLine={{ stroke: '#111827', strokeWidth: 2 }}
-               tickFormatter={(v: number) => `₹${Math.round(v / 1000)}k`} />
+               tickFormatter={(v) => `₹${Math.round(v / 1000)}k`} />
         <Tooltip
           formatter={(v) => formatINR(Number(v))}
           contentStyle={{ border: '3px solid #111827', borderRadius: 12, boxShadow: '4px 4px 0 #111827', fontWeight: 700 }}

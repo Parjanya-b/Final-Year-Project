@@ -1,24 +1,24 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState } from 'react';
 import Modal from './Modal';
 import { useAuth } from '@/lib/AuthContext';
 import { addGoal } from '@/lib/firestoreService';
 import { friendlyError } from '@/lib/authErrors';
 import { fromDateInput } from '@/lib/format';
-import { GOAL_TYPES, GoalType } from '@/lib/types';
+import { GOAL_TYPES } from '@/lib/types';
 
-export default function AddGoalModal({ onClose }: { onClose: () => void }) {
+export default function AddGoalModal({ onClose }) {
   const { user } = useAuth();
   const [name, setName] = useState('');
-  const [goalType, setGoalType] = useState<GoalType>(GOAL_TYPES[0]);
+  const [goalType, setGoalType] = useState(GOAL_TYPES[0]);
   const [target, setTarget] = useState('');
   const [current, setCurrent] = useState('0');
   const [targetDate, setTargetDate] = useState('');
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) return;
     const targetAmount = Number(target);
@@ -50,7 +50,7 @@ export default function AddGoalModal({ onClose }: { onClose: () => void }) {
 
         <div>
           <label className="text-xs font-bold block mb-1">GOAL TYPE</label>
-          <select className="input-field" value={goalType} onChange={(e) => setGoalType(e.target.value as GoalType)}>
+          <select className="input-field" value={goalType} onChange={(e) => setGoalType(e.target.value)}>
             {GOAL_TYPES.map((g) => <option key={g}>{g}</option>)}
           </select>
         </div>

@@ -1,8 +1,7 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import {
-  User,
   onAuthStateChanged,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -14,19 +13,10 @@ import {
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from './firebase';
 
-interface AuthContextType {
-  user: User | null;
-  loading: boolean;
-  register: (name: string, email: string, password: string) => Promise<void>;
-  login: (email: string, password: string) => Promise<void>;
-  loginWithGoogle: () => Promise<void>;
-  logout: () => Promise<void>;
-}
-
-const AuthContext = createContext<AuthContextType | null>(null);
+const AuthContext = createContext(null);
 
 // Creates users/{uid} in Firestore only if it does not exist yet
-async function saveUserProfile(user: User, name?: string) {
+async function saveUserProfile(user, name) {
   const ref = doc(db, 'users', user.uid);
   const snap = await getDoc(ref);
   if (!snap.exists()) {
@@ -38,8 +28,8 @@ async function saveUserProfile(user: User, name?: string) {
   }
 }
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   // Firebase tells us whenever someone logs in or out
@@ -51,13 +41,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return unsubscribe;
   }, []);
 
-  const register = async (name: string, email: string, password: string) => {
+  const register = async (name, email, password) => {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(cred.user, { displayName: name });
     await saveUserProfile(cred.user, name);
   };
 
-  const login = async (email: string, password: string) => {
+  const login = async (email, password) => {
     await signInWithEmailAndPassword(auth, email, password);
   };
 

@@ -2,7 +2,7 @@ import AppHeader from '@/components/AppHeader';
 import BottomDock from '@/components/BottomDock';
 import AuthGuard from '@/components/AuthGuard';
 
-export default function MainLayout({ children }: { children: React.ReactNode }) {
+export default function MainLayout({ children }) {
   return (
     <AuthGuard>
       <div className="flex flex-col min-h-screen pb-24">
