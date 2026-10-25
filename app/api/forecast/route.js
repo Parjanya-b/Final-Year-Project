@@ -27,7 +27,7 @@ export async function POST(req) {
   // non-JSON body on certain errors, which would crash the route handler
   // and cause Next.js to send an empty response (triggering the
   // "Unexpected end of JSON input" error on the client).
-  let json: unknown;
+  let json;
   try {
     json = await upstream.json();
   } catch {
